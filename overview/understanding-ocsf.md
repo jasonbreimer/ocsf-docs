@@ -88,6 +88,8 @@ _id, _ids, _uid, _uuid, _ip, _name, _info, _detail, _time, _dt, _process, _ver, 
 
 ### Arrays
 
+Arrays represent collections of related values or objects within OCSF event classes. This section explains the conventions, requirements, and naming patterns used for array attributes across the schema, including guidance on pluralization, optional forms, and how arrays are represented within the dictionary and class definitions. 
+
 **Plural “s” Suffix (Preferred)**
 
 Array attributes **should generally end with “s”** to indicate a plural collection.  
@@ -105,7 +107,7 @@ Examples:
 *   `foo_list`
 *   `ip_address_list` 
 
-> The `_list` suffix is optional and should be used only when it improves readability or avoids naming ambiguity.
+The `_list` suffix is optional and should be used only when it improves readability or avoids naming ambiguity.
 
 **Dictionary-Level Naming**
 
@@ -134,7 +136,7 @@ When defining the object representing an array element:
 
 This ensures that the element type is conceptually represented as a single instance, regardless of how many appear in an event.
 
-## **Class or Parent Object Level**
+**Class or Parent Object Level**
 
 Within an event class or parent object:
 

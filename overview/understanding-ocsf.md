@@ -86,9 +86,79 @@ OCSF adheres to naming conventions in order to more easily identify attributes w
 _id, _ids, _uid, _uuid, _ip, _name, _info, _detail, _time, _dt, _process, _ver, _list
 ```
 
-#### Arrays
+### Arrays
 
-Attribute names used for arrays end with `s`.  For example `category_ids`.  A MITRE ATT&CK<sup>TM</sup> array is named `attacks`.
+**Plural “s” Suffix (Preferred)**
+
+Array attributes **should generally end with “s”** to indicate a plural collection.  
+Examples:
+
+*   `category_ids`
+*   `attacks` (MITRE ATT\&CK techniques)
+
+**Optional `_list` Suffix**
+
+In situations where pluralization is ambiguous, unnatural, or could conflict with another attribute, the `_list` suffix may be used for clarity.
+
+Examples:
+
+*   `foo_list`
+*   `ip_address_list` 
+
+> The `_list` suffix is optional and should be used only when it improves readability or avoids naming ambiguity.
+
+**Dictionary-Level Naming**
+
+Within a dictionary:
+
+*   The **plural object** representing an array **uses `_list`** when necessary:
+    *   `foo_list`
+
+*   The **type of the individual element** is always the **singular form**:
+    *   Type name: `foo`
+
+*   There is **no separate dictionary definition** required for the plural name. However it may exist as a separate attribute, see details below.
+
+*   A singular attribute **may also exist** if it represents a different semantic meaning:
+    *   `foo` → singular instance
+    *   `foo_list` → array of instances
+
+This avoids naming collisions while preserving semantic clarity.
+
+**Object-Level Naming**
+
+When defining the object representing an array element:
+
+*   The **object name is singular**:
+    *   Object type: `foo`
+
+This ensures that the element type is conceptually represented as a single instance, regardless of how many appear in an event.
+
+## **Class or Parent Object Level**
+
+Within an event class or parent object:
+
+*   The array attribute uses the plural form or `_list`:
+    *   `foo_list`
+
+This applies whether the attribute appears in the main event body or inside a nested object.
+
+**Optional Singular Attribute**
+
+In addition to the array attribute, OCSF allows the inclusion of a **singular form** of the attribute when it carries a distinct semantic meaning. This can be useful when:
+
+*   The singular value represents a default, primary, or most‑relevant instance
+*   The array represents a broader collection of related elements
+*   Both forms are needed for clarity in the data model
+
+Examples:
+
+*   `foo` → a single, primary instance
+*   `foo_list` → a collection of instances
+*   `ip_address` → a primary or source address
+*   `ip_address_list` → all observed addresses
+
+The singular attribute is **optional** and should only be used when it provides meaningful distinction or improves the readability of the schema.
 
 #### Unique IDs
 

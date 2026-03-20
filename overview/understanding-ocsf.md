@@ -88,79 +88,88 @@ _id, _ids, _uid, _uuid, _ip, _name, _info, _detail, _time, _dt, _process, _ver, 
 
 ### Arrays
 
-Arrays represent collections of related values or objects within OCSF event classes. This section explains the conventions, requirements, and naming patterns used for array attributes across the schema, including guidance on pluralization, optional forms, and how arrays are represented within the dictionary and class definitions. 
+Arrays in OCSF represent collections of related scalar values or objects within event classes and objects. They are used when an event may contain multiple instances of the same conceptual data element, such as multiple identifiers, addresses, or related entities. This section defines the conventions, requirements, and naming patterns for array attributes across the schema, including pluralization rules, optional suffix usage, and how arrays are represented at the dictionary, object, and event class levels.
 
-**Plural “s” Suffix (Preferred)**
+#### Naming Conventions for Arrays
 
-Array attributes **should generally end with “s”** to indicate a plural collection.  
-Examples:
+In general, array attributes are named to clearly convey that they represent a collection rather than a single instance. OCSF favors simple, readable naming that maintains semantic clarity and avoids collisions with singular attributes.
+
+##### Plural “s” Suffix (Preferred)
+
+Array attributes **should generally use a plural form ending in “s”** to indicate a collection of elements.
+
+Examples include:
 
 *   `category_ids`
 *   `attacks` (MITRE ATT\&CK techniques)
 
-**Optional `_list` Suffix**
+This approach is preferred when pluralization is natural and unambiguous.
 
-In situations where pluralization is ambiguous, unnatural, or could conflict with another attribute, the `_list` suffix may be used for clarity.
+##### Optional `_list` Suffix
 
-Examples:
+In cases where pluralization is ambiguous, awkward, or may conflict with another attribute name, the optional `_list` suffix may be used to explicitly indicate an array.
+
+Examples include:
 
 *   `foo_list`
-*   `ip_address_list` 
+*   `ip_address_list`
 
-The `_list` suffix is optional and should be used only when it improves readability or avoids naming ambiguity.
+The `_list` suffix is not required and should be used only when it improves readability or avoids ambiguity in the schema.
 
-**Dictionary-Level Naming**
+#### Dictionary-Level Representation
 
-Within a dictionary:
+Within the attribute dictionary, arrays are defined using the following conventions:
 
-*   The **plural object** representing an array **uses `_list`** when necessary:
+*   The **array attribute name** may use `_list` when necessary to distinguish it from a singular attribute:
     *   `foo_list`
 
-*   The **type of the individual element** is always the **singular form**:
-    *   Type name: `foo`
+*   The **data type of the array elements** is always defined using the **singular form**:
+    *   Element type: `foo`
 
-*   There is **no separate dictionary definition** required for the plural name. However it may exist as a separate attribute, see details below.
+*   There is **no requirement for a separate dictionary entry** solely to represent the pluralized form. However, a plural attribute may exist independently when it represents a distinct semantic meaning.
 
-*   A singular attribute **may also exist** if it represents a different semantic meaning:
-    *   `foo` → singular instance
-    *   `foo_list` → array of instances
+*   A **singular attribute may coexist** with an array attribute when each conveys different semantics:
+    *   `foo` → a single instance
+    *   `foo_list` → a collection of instances
 
-This avoids naming collisions while preserving semantic clarity.
+This approach avoids naming collisions while preserving semantic precision and reuse of data types.
 
-**Object-Level Naming**
+#### Object-Level Representation
 
-When defining the object representing an array element:
+When an array contains complex data types, the object representing each array element follows standard object naming rules:
 
-*   The **object name is singular**:
+*   The **object name is always singular**, regardless of how many instances appear in the event.
     *   Object type: `foo`
 
-This ensures that the element type is conceptually represented as a single instance, regardless of how many appear in an event.
+This reinforces the conceptual model that each array element represents an individual entity.
 
-**Class or Parent Object Level**
+#### Event Class and Parent Object Usage
 
-Within an event class or parent object:
+Within an event class or a parent object, array attributes are expressed using the plural form or the `_list` suffix, consistent with the naming rules described above.
 
-*   The array attribute uses the plural form or `_list`:
-    *   `foo_list`
+Examples include:
 
-This applies whether the attribute appears in the main event body or inside a nested object.
+*   `foo_list`
 
-**Optional Singular Attribute**
+This convention applies uniformly whether the array attribute appears at the top level of an event or within a nested object.
 
-In addition to the array attribute, OCSF allows the inclusion of a **singular form** of the attribute when it carries a distinct semantic meaning. This can be useful when:
+#### Optional Singular Attributes
 
-*   The singular value represents a default, primary, or most‑relevant instance
-*   The array represents a broader collection of related elements
-*   Both forms are needed for clarity in the data model
+In addition to array attributes, OCSF permits the inclusion of a **singular form** of an attribute when it represents a distinct or more specific semantic meaning. This pattern is commonly used when:
 
-Examples:
+*   The singular attribute represents a primary, default, or most relevant instance
+*   The array attribute represents the complete set of related instances
+*   Both forms improve clarity or usability of the data model
+
+Examples include:
 
 *   `foo` → a single, primary instance
 *   `foo_list` → a collection of instances
 *   `ip_address` → a primary or source address
 *   `ip_address_list` → all observed addresses
 
-The singular attribute is **optional** and should only be used when it provides meaningful distinction or improves the readability of the schema.
+The singular attribute is optional and should only be defined when it adds meaningful distinction or improves the interpretability of the schema.
+
 
 #### Unique IDs
 

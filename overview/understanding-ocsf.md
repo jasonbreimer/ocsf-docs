@@ -4,11 +4,11 @@
 
 Author: Paul Agbabian
 
-Date: September 2024
+Date: April 2026
 
 Status: RFC - Corresponds to schema version 1.0.0
 
-Version: 1.16
+Version: 1.17
 
 ## Introduction to the Framework and Schema
 
@@ -111,8 +111,7 @@ In cases where pluralization is ambiguous, awkward, or may conflict with another
 
 Examples include:
 
-*   `foo_list`
-*   `ip_address_list`
+*   `finding_info_list`
 
 The `_list` suffix is not required and should be used only when it improves readability or avoids ambiguity in the schema.
 
@@ -121,16 +120,14 @@ The `_list` suffix is not required and should be used only when it improves read
 Within the attribute dictionary, arrays are defined using the following conventions:
 
 *   The **array attribute name** may use `_list` when necessary to distinguish it from a singular attribute:
-    *   `foo_list`
+    *   `finding_info_list`
 
 *   The **data type of the array elements** is always defined using the **singular form**:
-    *   Element type: `foo`
-
-*   There is **no requirement for a separate dictionary entry** solely to represent the pluralized form. However, a plural attribute may exist independently when it represents a distinct semantic meaning.
+    *   Element type: `finding_info`
 
 *   A **singular attribute may coexist** with an array attribute when each conveys different semantics:
-    *   `foo` → a single instance
-    *   `foo_list` → a collection of instances
+    *   `finding_info` → a single instance
+    *   `finding_info_list` → a collection of instances
 
 This approach avoids naming collisions while preserving semantic precision and reuse of data types.
 
@@ -139,7 +136,7 @@ This approach avoids naming collisions while preserving semantic precision and r
 When an array contains complex data types, the object representing each array element follows standard object naming rules:
 
 *   The **object name is always singular**, regardless of how many instances appear in the event.
-    *   Object type: `foo`
+    *   Object type: `finding_info`
 
 This reinforces the conceptual model that each array element represents an individual entity.
 
@@ -149,7 +146,7 @@ Within an event class or a parent object, array attributes are expressed using t
 
 Examples include:
 
-*   `foo_list`
+*   `finding_info_list`
 
 This convention applies uniformly whether the array attribute appears at the top level of an event or within a nested object.
 
@@ -163,10 +160,9 @@ In addition to array attributes, OCSF permits the inclusion of a **singular form
 
 Examples include:
 
-*   `foo` → a single, primary instance
-*   `foo_list` → a collection of instances
-*   `ip_address` → a primary or source address
-*   `ip_address_list` → all observed addresses
+*   `finding_info` → a single, primary instance
+*   `finding_info_list` → a collection of instances
+``
 
 The singular attribute is optional and should only be defined when it adds meaningful distinction or improves the interpretability of the schema.
 
